@@ -1,0 +1,113 @@
+\chapter{Introduction}
+
+Testing and validating software architectures often require robust methodologies to ensure that non-functional requirements (NFRs) such as performance, scalability, and efficiency are met. Traditional approaches, like live testing or simulation of user behaviors, can sometimes be time-consuming and resource-intensive. In this document, we delve into advanced techniques like shadow testing and accelerated simulation that streamline NFR validation while preserving test accuracy.
+
+\section{Architecture Evaluation}
+
+When evaluating an architecture’s ability to meet NFRs, a comprehensive testing strategy is necessary. This chapter discusses various testing techniques and their impact on validating an architecture’s readiness for deployment.
+
+\subsection{Challenges in Non-functional Requirement Testing}
+
+Traditional testing methods for NFRs often involve long-running tests that replicate real-world scenarios, requiring extensive resources. For instance, testing response times and scalability might involve simulating thousands of concurrent users over extended periods. Additionally, maintaining the accuracy of such tests, while avoiding interference with production environments, poses significant challenges.
+
+To overcome these challenges, modern testing approaches like shadow testing and simulation-based time acceleration are employed. These methods allow for a more efficient way to measure and validate NFRs without the prohibitive costs associated with live testing.
+
+\section{Shadow Testing in Architecture Validation}
+
+Shadow testing, also known as shadow deployment or shadowing traffic, is a technique where production traffic is duplicated and sent to a new version of a system (V-Next) while the current version (V-Current) continues to serve actual users. This allows for a direct comparison between the two versions without affecting the end-user experience.
+
+\subsubsection{The Mechanics of Shadow Testing}
+
+Shadow testing works by splitting the incoming traffic at the network level or within the application itself, forwarding it simultaneously to both V-Current and V-Next. Users interact with V-Current, and the responses are returned as usual. Meanwhile, V-Next processes the same requests in the background. The key advantage of this approach is that it allows testing under realistic load conditions, using real-world traffic patterns.
+
+\textbf{Example:} Consider a web-based e-commerce platform that is planning to roll out a new search feature. Using shadow testing, the new search algorithm (V-Next) can be validated against the existing algorithm (V-Current) under actual user search patterns, ensuring it meets performance and scalability expectations before being fully rolled out.
+
+\subsubsection{Measuring Shadow Testing Outcomes}
+
+Shadow testing provides an opportunity to collect detailed performance metrics for the V-Next system without compromising the stability of the V-Current system. These metrics include:
+
+\begin{itemize}
+    \item \textbf{Latency and Response Times:} Comparison of response times between V-Next and V-Current helps identify performance regressions.
+    \item \textbf{Error Rates:} Observing errors in V-Next can reveal compatibility issues or bugs.
+    \item \textbf{Resource Utilization:} CPU, memory, and network usage metrics can determine if the new version is more efficient.
+\end{itemize}
+
+By analyzing these metrics, architects and developers can make informed decisions about the readiness of V-Next for deployment.
+
+\section{Accelerated Simulation for Performance Evaluation}
+
+Live testing of NFRs can be cumbersome due to the time involved in simulating real-world conditions. To address this, accelerated simulation techniques are employed, allowing for the skipping of idle or sleep periods that occur during normal operation. This section explains how accelerated simulation can reduce testing time and improve the efficiency of validation processes.
+
+\subsection{Simulating Client Behavior}
+
+In a traditional simulation, client behavior is replicated by having the system wait or sleep during idle periods, such as waiting for user input or network responses. However, when testing NFRs like response time or throughput, these idle periods do not contribute valuable data. By skipping over these periods, we can focus solely on the operations that impact performance metrics.
+
+The client behavior simulation in an accelerated environment is structured as follows:
+
+\begin{algorithm}[H]
+\caption{Client Behavior Simulation with Time Skipping} \label{alg:client_time_skipping}
+\begin{algorithmic}[1]
+    \STATE \textbf{Initialize} the client parameters and states
+    \WHILE{True}
+        \STATE Simulate state transitions and client operations
+        \STATE Skip idle periods to accelerate testing
+        \STATE Send a request corresponding to the current state
+        \STATE Record the request’s send time
+        \STATE Wait for the simulated server response
+        \STATE Record the response’s arrival time and calculate the latency
+        \STATE Update state: $state \leftarrow newState(state)$
+    \ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
+By focusing on critical operations and skipping idle periods, this simulation technique enables quicker validation of NFRs.
+
+\subsection{Architecture Simulation in Simulated Time}
+
+Architecture simulation in simulated time involves defining the system’s components and their interactions, simulating events as they would occur in real-world conditions. However, the simulation time is managed dynamically, skipping over non-relevant periods and accelerating the overall test process.
+
+The simulation framework is illustrated in the following algorithm:
+
+\begin{algorithm}[H]
+\caption{Simulated-time Server Request Handling} \label{alg:server_time_skipping}
+\begin{algorithmic}[1]
+    \STATE \textbf{Initialize} the server parameters and states
+    \WHILE{True}
+        \STATE Wait for incoming client requests or internal events
+        \STATE Simulate the request handling based on predefined response times
+        \STATE Skip idle or processing times that do not impact performance metrics
+        \STATE Send responses back to clients
+    \ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
+This approach allows testing of complex scenarios in a fraction of the time required by traditional methods.
+
+\section{Problem Statement}
+
+Software testing and validation traditionally involve time-consuming processes to measure system performance under various conditions. For instance, testing the scalability of a web application under heavy load can take hours or even days when done in real-time, as clients need to remain idle for long periods between requests to simulate realistic user behavior.
+
+The problem becomes more acute when testing microservices or distributed systems, where each component might experience different load patterns and have unique idle times. In such scenarios, traditional real-time testing is not only inefficient but can also result in skewed performance metrics due to the excessive duration of the tests.
+
+To address this issue, we propose an approach that accelerates the testing process by skipping over idle periods and focusing solely on the operations that impact system performance. By orchestrating time dynamically, we achieve more accurate performance measurements in a fraction of the time required by conventional methods.
+
+\section{Proposed Solution}
+
+The proposed solution leverages simulated time and discrete event simulation (DES) to create a controlled testing environment where the passage of time is managed programmatically. This allows for skipping over idle periods, focusing only on significant events, and accelerating the overall testing process.
+
+\subsection{System Architecture}
+
+The system consists of the following components:
+
+\begin{itemize}
+    \item \textbf{Client Simulator:} Mimics client behavior, generating requests based on a predefined state machine and skipping idle periods.
+    \item \textbf{Server Simulator:} Handles client requests, processes them according to predefined rules, and skips idle or processing times that do not contribute to NFR validation.
+    \item \textbf{Simulation Orchestrator:} Manages the flow of time, ensuring that idle periods are skipped and only critical events are processed.
+    \item \textbf{Metrics Collector:} Records performance metrics such as response times, throughput, and resource utilization for analysis.
+\end{itemize}
+
+The orchestrator component is responsible for managing the time flow, ensuring that the simulation advances quickly while maintaining the accuracy of event timing.
+
+\section{Conclusion}
+
+The use of advanced testing techniques like shadow testing and accelerated simulation offers significant benefits in validating software architectures against non-functional requirements. By leveraging real-world traffic in a non-intrusive manner and accelerating time in simulations, these approaches reduce testing time and resource consumption while preserving the accuracy and relevance of test results. Future work will explore the integration of machine learning models to further optimize the testing process and predict system behavior under various load conditions.

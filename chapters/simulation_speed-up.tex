@@ -1,0 +1,117 @@
+\chapter{Simulation Speed-up}
+
+Understanding the performance gains achieved by utilizing simulated time in a Discrete Event Simulation (DES) model requires a detailed analysis of the cost factors in both real-time and simulated-time scenarios. This chapter explores the key variables influencing system performance and presents formulas to estimate costs and speed-up factors, providing a basis for comparing the efficiency of different simulation techniques.
+
+\section{Key Variables}
+
+To model the simulation's dynamics, the following key variables are defined:
+
+\begin{itemize}
+    \item \( p \): The total number of requests initiated by clients throughout the simulation.
+    \item \( c \): The number of clients participating in the simulation.
+    \item \( n \): The number of possible request types or states a client can have, such as connect, disconnect, or idle.
+    \item \( P \): The transition matrix for a Markov chain with dimensions \( n \times n \), representing state transition probabilities that model clients’ behavior.
+    \item \( svp \): Stationary distribution vector of the Markov chain, denoted as a \( 1 \times n \) vector, representing the long-term probability distribution of the system’s states.
+    \item \( cst \): A vector of dimension \( n \times 1 \) representing the average sleep times of clients in each state.
+    \item \( ast \): A vector of dimension \( n \times 1 \) indicating the frequency of send operations performed by clients for each state.
+    \item \( art \): A vector of dimension \( n \times 1 \) representing the architecture's average response times for each state.
+    \item \( cmot \): A vector of dimension \( n \times 1 \) representing the machine operation times on the client side for each state.
+    \item \( amot \): A vector of dimension \( n \times 1 \) representing the architecture's machine operation times for each state.
+    \item \( cstoo \): The number of send operations that each client performs to the simulation executive for each request.
+    \item \( artoo \): The number of send operations that the architecture performs to the simulation executive for each request.
+    \item \( \tau \): The network transmission time, representing the time it takes to send a request over the network.
+    \item \( \alpha \): A constant used for scaling time or representing additional delays in specific scenarios.
+\end{itemize}
+
+These variables form the basis for calculating the costs in both real-time and simulated-time simulations, allowing for a comprehensive analysis of the speed-up achieved using the simulation framework.
+
+\section{Real-time Simulation Cost}
+
+In real-time simulations, the system operates in synchrony with actual time, meaning that clients follow their defined behavior and sleep periods without any acceleration. The total real-time simulation cost, denoted as \( T_{real} \), can be decomposed into two main components: the time for client operations and the time for architecture operations.
+
+\[
+    T_{real} = TClient_{real} + TArchitecture_{real}
+\]
+
+The time for client operations \( TClient_{real} \) is given by:
+
+\[
+    TClient_{real} = \left\lceil \frac{p}{c} \right\rceil \cdot (svp \cdot cst) + \left\lceil \frac{p}{c} \right\rceil \cdot \tau + \left\lceil \frac{p}{c} \right\rceil \cdot (svp \cdot cmot)
+\]
+
+Where:
+\begin{itemize}
+    \item \( \left\lceil \frac{p}{c} \right\rceil \): The expected number of requests per client.
+    \item \( svp \cdot cst \): The expected sleep times for a client, weighted by the stationary distribution vector \( svp \).
+    \item \( \tau \): The network transmission time for a client to send a request to the server.
+    \item \( svp \cdot cmot \): The expected time spent in machine operations by the client, weighted by the stationary distribution vector.
+\end{itemize}
+
+The time for architecture operations \( TArchitecture_{real} \) is given by:
+
+\[
+    TArchitecture_{real} = \left\lceil \frac{p}{c} \right\rceil \cdot (svp \cdot art) + \left\lceil \frac{p}{c} \right\rceil \cdot (svp \cdot ast) \cdot \tau + \left\lceil \frac{p}{c} \right\rceil \cdot (svp \cdot amot)
+\]
+
+Where:
+\begin{itemize}
+    \item \( svp \cdot art \): The expected server processing time for each request, weighted by the stationary distribution vector \( svp \).
+    \item \( (svp \cdot ast) \cdot \tau \): The network time for sending responses to clients, where \( ast \) is the vector indicating the frequency of send operations based on the state.
+    \item \( svp \cdot amot \): The expected time spent in machine operations by the architecture, weighted by the stationary distribution vector.
+\end{itemize}
+
+\section{Simulated-time Simulation Cost}
+
+In simulated-time simulations, the system operates based on simulated time, skipping idle periods and thereby accelerating the simulation process. The total simulated-time simulation cost, denoted as \( T_{simulated} \), can be broken down into three main components: the time for client operations, the time for architecture operations, and the time for simulation executive operations.
+
+\[
+    T_{simulated} = TClient_{simulated} + TArchitecture_{simulated} + TSimExecutive_{simulated}
+\]
+
+The time for client operations \( TClient_{simulated} \) is given by:
+
+\[
+    TClient_{simulated} = (svp \cdot cstoo) \cdot p \cdot \tau + p \cdot \tau + p \cdot (svp \cdot cmot)
+\]
+
+Where:
+\begin{itemize}
+    \item \( (svp \cdot cstoo) \cdot p \cdot \tau \): The total network time for messages from clients to the simulation executive, considering the number of requests \( p \) and the network transmission time \( \tau \).
+    \item \( p \cdot \tau \): The network time for sending requests to the server.
+    \item \( p \cdot (svp \cdot cmot) \): The time spent in machine operations by the clients.
+\end{itemize}
+
+The time for architecture operations \( TArchitecture_{simulated} \) is given by:
+
+\[
+    TArchitecture_{simulated} = (svp \cdot artoo) \cdot p \cdot \tau + p \cdot (svp \cdot ast) \cdot \tau + p \cdot (svp \cdot amot)
+\]
+
+Where:
+\begin{itemize}
+    \item \( (svp \cdot artoo) \cdot p \cdot \tau \): The total network time for messages from the architecture to the simulation executive.
+    \item \( p \cdot (svp \cdot ast) \cdot \tau \): The network time for sending responses to clients and internal messages within the architecture.
+    \item \( p \cdot (svp \cdot amot) \): The time spent in machine operations by the architecture.
+\end{itemize}
+
+The time for simulation executive operations \( TSimExecutive_{simulated} \) is given by:
+
+\[
+    TSimExecutive_{simulated} = (svp \cdot (cstoo + artoo)) \cdot p \cdot \theta + p \cdot (\beta + \tau)
+\]
+
+Where:
+\begin{itemize}
+    \item \( (svp \cdot (cstoo + artoo)) \cdot p \cdot \theta \): The processing time of a request by the simulation executive, considering the combined send operations of clients and the architecture.
+    \item \( p \cdot (\beta + \tau) \): The time to resolve synchronization and network delays in the system.
+\end{itemize}
+
+\section{Simulation Speed-up Factor}
+
+The speed-up factor \( SimulationSpeedUp \) achieved by using simulated time can be estimated as:
+
+\[
+SimulationSpeedUp = \frac{T_{real}}{T_{simulated}}
+\]
+
+This ratio quantifies the extent to which the simulation runs faster by utilizing simulated time, eliminating idle periods, and optimizing request handling through the simulation executive.

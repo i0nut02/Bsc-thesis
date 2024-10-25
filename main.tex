@@ -1,0 +1,143 @@
+\documentclass[oneside]{sapthesis}%remove "english" for a thesis written in Italian
+%Bachelor's (laurea triennale) thesis : Lau 
+%Master's (laurea specialistica) thesis: LaM 
+%PhD's thesis: PhD 
+%\usepackage[italian]{babel} %use this package for a thesis written in Italian
+\usepackage[utf8]{inputenx}
+\usepackage{indentfirst}
+\usepackage{microtype}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+%\usepackage{chemformula}
+%\usepackage{setspace}
+%\usepackage{yfonts,color}
+%\usepackage{siunitx}
+%\usepackage{comment}
+%\usepackage{multirow}
+%\usepackage{varioref}
+%\usepackage[bottom]{footmisc}
+%\usepackage{wrapfig}
+%\usepackage{float}
+%\usepackage{type1cm}
+\usepackage{lettrine}
+\linespread{0.9}
+%\usepackage{chngcntr}
+\usepackage[nottoc, notlof, notlot]{tocbibind}
+%\onehalfspacing
+%\counterwithout{footnote}{chapter}
+
+\usepackage{hyperref}
+\usepackage{url}
+\hypersetup{
+                breaklinks=true,
+			hyperfootnotes=false,			
+			bookmarks=true,			
+			colorlinks=true,
+			linkcolor=black,
+                        linktoc=page,
+			anchorcolor=black,
+			citecolor=black,
+			urlcolor=black,
+			pdftitle={Thesis},
+			pdfauthor={Radu Ionut Barbalata},
+			pdfkeywords={thesis, sapienza, roma, university}
+ }
+\title{Performance Evaluation of Software Architectures using Discrete Event Simulation}
+\author{Radu Ionut Barbalata}
+\IDnumber{2002688}
+\course{Bachelor Degree in Computer Science}
+\courseorganizer{Faculty of Information Engineering, Computer Science and Statistics}
+\submitdate{2024/2025}
+\copyyear{2024}
+\advisor{Prof. Enrico Tronci}
+\coadvisor{Prof. Toni Mancini}
+\authoremail{ionu.radu02@gmail.com}
+\examdate{24 Octomber 2024}
+\examiner{Prof. Tronci} \examiner{Prof. Arrigoni} \examiner{Prof. Bottoni}  \examiner{Prof. Gorla}  \examiner{Prof. Maselli} \examiner{Prof. Samory}  \examiner{Prof. Salvo} 
+
+%we refer to http://ctan.mirrorcatalogs.com/macros/latex/contrib/sapthesis/sapthesis-doc.pdf for an exhaustive description of the sapthesis documentclass.
+
+
+\begin{document}
+
+\frontmatter
+\maketitle
+\dedication{
+    \say{The destination becomes attainable only for those who embrace the journey, traversing each step with purpose along the path.}
+}
+%\input{./chapters/abstract}
+
+\tableofcontents
+
+
+\mainmatter
+
+\input{chapters/abstract}
+
+\input{chapters/introduction}
+
+\input{chapters/preliminars}
+
+\input{chapters/DesignImplementation}
+
+\input{chapters/simulation_speed-up}
+
+\input{chapters/example_real_word}
+
+\input{chapters/validation}
+
+\input{chapters/conclusion}
+
+\input{chapters/acknowledgements}
+
+\backmatter
+
+
+\phantomsection
+\begin{thebibliography}{17}
+
+\bibitem{shadowTestingMicrosoft}
+Microsoft. Shadow Testing in Automated Testing. Available online: \url{https://microsoft.github.io/code-with-engineering-playbook/automated-testing/shadow-testing/}.
+
+\bibitem{PaDSS} 
+    R. M. Fujimoto, \textit{Parallel and Distributed Simulation Systems}. Wiley-Interscience, 2000.
+
+\bibitem{pqueue}
+cppreference.com contributors, 
+\emph{std::priority\_queue}. 
+Available: \url{https://en.cppreference.com/w/cpp/container/priority_queue}.
+
+\bibitem{bigO}
+Wikipedia contributors, "Big O notation", \textit{Wikipedia, The Free Encyclopedia}, Available at: \url{https://en.wikipedia.org/wiki/Big_O_notation}
+
+\bibitem{umap}
+cppreference.com contributors, 
+\emph{std::unordered\_map}. 
+Available: \url{https://en.cppreference.com/w/cpp/container/unordered_map}.
+
+\bibitem{nprs}
+Wikipedia contributors, "Non-functional requirement", \textit{Wikipedia, The Free Encyclopedia}, Available at: 
+\url{https://en.wikipedia.org/wiki/Non-functional_requirement}
+
+\bibitem{loadBalancer}
+Amazon Web Services, Inc. \textit{What is Load Balancing?}. Available at: \url{https://aws.amazon.com/it/what-is/load-balancing/}.
+
+\bibitem{markovChain}
+J. D. Herniter and J. F. Magee, ``Customer Behavior as a Markov Process,'' \textit{Operations Research}, vol. 9, no. 1, pp. 105-122, Jan. - Feb., 1961.
+
+\bibitem{stationary}
+``MathWorks, ``Markov Chain Analysis and Stationary Distribution,'' [Online]. Available: \url{https://it.mathworks.com/help/symbolic/markov-chain-analysis-and-stationary-distribution.html}.
+
+\bibitem{MediumDistributedLogging}
+Vaishnavi Abirami,
+\textit{Mastering Microservices Logging - Best Practices Guide},
+August 29, 2024. Available: \url{https://signoz.io/blog/microservices-logging/}
+
+
+\end{thebibliography}
+
+\end{document}

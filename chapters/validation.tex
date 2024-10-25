@@ -1,0 +1,67 @@
+\chapter{Validation of Formula Results}
+
+\section{Methodology for Validation}
+
+Validating the proposed formulas for computing simulation time (\( T_{simulated} \)) is a critical step to ensure their reliability and applicability. While the formula for real-time execution (\( T_{real} \)) does not require further validation—since it directly reflects the time elapsed during real-world execution with actual delays—the simulated time formulas need rigorous testing to verify their accuracy.
+
+To validate \( T_{simulated} \), a series of experiments were conducted using various configurations of \( p \) (number of requests) and \( c \) (number of clients). The simulation results obtained from the tool were then compared against the theoretical values predicted by our formulas. This comparison was performed by measuring the actual time taken to execute the simulated test cases and calculating the percentage error between the observed and predicted values.
+
+\subsection{Test Setup and Experimental Design}
+
+The experiments were designed to evaluate the formulas across a range of scenarios with varying numbers of clients and requests. Each configuration was executed multiple times to account for variability in results due to system performance or environmental factors. The following test configurations were used:
+
+\begin{itemize}
+    \item \textbf{Number of Requests (\( p \))}: 10,000, 20,000, and 30,000.
+    \item \textbf{Number of Clients (\( c \))}: 100, 500, and 1,000.
+\end{itemize}
+
+The system under test was executed on a single machine, with the simulation tool configured to use the same settings for all runs. The predicted time values were computed based on the derived formulas, and the actual simulation times were recorded for each configuration.
+
+For clarity, we define \( T_{real} \) as the time measured for the actual implementation of the system, and \( T_{simulated} \) as the value computed using our formulas.
+
+\section{Error Analysis and Accuracy Metrics}
+
+To quantify the accuracy of the simulation results compared to the predicted values, the following formula was used to calculate the percentage error:
+
+\[
+    \text{Error} = \frac{|T_{predicted} - T_{simulated}|}{T_{predicted}} \times 100
+\]
+
+This error metric provides a measure of the deviation between the theoretical and experimental results, helping identify the scenarios where our formulas closely approximate the actual simulation time and where deviations occur. A lower error percentage indicates that the formulas are highly accurate, while a higher percentage suggests potential inefficiencies or inaccuracies in either the formula or the simulation model.
+
+\subsection{Analysis of Results}
+
+The results show that the formula for \( T_{simulated} \) provides an accurate approximation of the actual simulation time in most cases. However, as the number of clients (\( c \)) increases, the error tends to rise slightly. This is likely due to the increased computational overhead of managing a larger number of processes in a single-machine environment. The kernel’s scheduling and context-switching operations introduce additional delays not captured by the formulas, which assume an idealized processing scenario.
+
+The experimental results are summarized in Table \ref{table:validation_results}, which presents the predicted and actual simulation times, along with the calculated error percentages for each configuration.
+
+\begin{table}[h!]
+    \centering
+    \resizebox{0.85\textwidth}{!}{
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \textbf{Requests} & \textbf{Clients} & \textbf{$T_{predicted}$ (sec)} & \textbf{$T_{simulation}$ (sec)} & \textbf{Error (\%)} \\ \hline
+    10,000 & 100  & 60.40 & 58 & 3.97\% \\ \hline
+    10,000 & 500  & 60.40 & 61 & 0.99\% \\ \hline
+    10,000 & 1,000 & 60.40 & 62 & 2.64\% \\ \hline
+    20,000 & 100  & 90.80 & 87 & 4.18\% \\ \hline
+    20,000 & 500  & 90.80 & 90 & 0.88\%  \\ \hline
+    20,000 & 1,000 & 90.80 & 91 & 0.22\%  \\ \hline
+    30,000 & 100  & 121.20 & 114 & 5.94\% \\ \hline
+    30,000 & 500  & 121.20 & 118 & 2.64\% \\ \hline
+    30,000 & 1,000 & 121.20 & 122 & 0.66\% \\ \hline
+    \end{tabular}
+    }
+    \caption{Comparison of predicted and actual simulation times for varying numbers of requests and clients}
+    \label{table:validation_results}
+\end{table}
+
+\subsection{Interpretation of Results}
+
+The results in Table \ref{table:validation_results} demonstrate that the formulas for \( T_{simulated} \) perform well under most conditions, with an average error of less than 3\% across all configurations. The highest error was observed for 30,000 requests and 100 clients, where the percentage error reached 5.94\%. This suggests that the formula’s accuracy may decrease slightly under higher loads when the number of clients is relatively small compared to the number of requests.
+
+One possible explanation for this discrepancy is the impact of process management overhead, which is more pronounced when a small number of clients handle a large volume of requests. In such cases, the overhead introduced by context switching and I/O operations can lead to increased execution time, which is not accounted for in the simplified formulas used to derive \( T_{simulated} \).
+\\ \\
+The validation of the formulas for \( T_{simulated} \) confirms that they provide an accurate approximation of actual simulation times under a variety of configurations. While the formulas maintain high accuracy in most cases, further refinement may be needed to account for system-specific factors such as process management overhead and resource contention. Future work will focus on enhancing the formulas to incorporate these factors, improving the precision of simulation time predictions in complex scenarios.
+
+Overall, the results demonstrate that the proposed approach is effective in estimating simulation times, enabling developers and architects to perform quick, reliable validations of system performance without the need to run exhaustive real-time tests.

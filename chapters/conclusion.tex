@@ -1,0 +1,29 @@
+\chapter{Conclusion and Future Work}
+
+In this thesis, we successfully designed and validated a new e-commerce system architecture focused on meeting essential non-functional requirements, particularly performance. Through rigorous experimentation and simulation, we established a framework to evaluate various architectural designs against expected client behavior, ultimately enhancing our understanding of how system performance can be optimized.
+
+\section{Summary of Results}
+
+The results demonstrated that our proposed architecture, characterized by multiple server replications and a DNS-based load balancer, effectively managed client requests. By employing a Markov chain to simulate customer interactions, we were able to capture the dynamic nature of user behavior and its impact on system performance. Key performance metrics, including latency, response times, and overall simulation speed-up, were analyzed under various configurations of clients and requests. 
+
+Notably, we observed that simulated-time simulations yielded significant speed-ups when the number of clients was limited, while real-time simulations became more efficient as client numbers increased. This insight allows architects and developers to strategically select testing methodologies based on system load, ultimately enhancing testing efficiency and reliability.
+
+Additionally, our research established that achieving a target of 100 million requests with a speed-up of at least 10x necessitates approximately 2.9 million clients. This finding underscores the scalability potential of our architecture and emphasizes the importance of load management in high-demand scenarios.
+
+\section{Future Work}
+
+Despite the significant contributions of this research, several areas warrant further exploration to enhance the robustness and applicability of our findings:
+
+\begin{itemize}
+    \item \textbf{Advanced Load Balancing Techniques:} Future work could investigate alternative load-balancing algorithms that adapt dynamically to changing workloads and client behaviors. This would improve resource allocation and further optimize response times.
+
+    \item \textbf{Incorporation of Additional Non-Functional Requirements:} While this thesis focused primarily on performance, extending the analysis to include other non-functional requirements such as reliability, scalability, and security could provide a more comprehensive evaluation of the system's capabilities.
+
+    \item \textbf{Longitudinal Studies:} Conducting long-term performance assessments in real-world environments would help validate our simulation results and uncover any unforeseen issues that arise under sustained loads.
+
+    \item \textbf{Multi-Cloud Deployments:} As cloud computing continues to evolve, examining the effects of deploying this architecture across multiple cloud platforms could provide insights into optimizing costs and performance while maintaining high availability.
+\end{itemize}
+
+\section{Conclusion}
+
+In conclusion, this research successfully validated a novel e-commerce system architecture that meets crucial performance requirements through simulation and analysis. The insights gained from our experiments serve as a foundation for further developments in e-commerce systems, paving the way for more efficient architectures capable of handling increasing demand. By addressing the outlined future work, we can enhance the adaptability and robustness of our system, ensuring its relevance in the fast-paced landscape of digital commerce.
